@@ -83,7 +83,7 @@ const promptProject = portfolioData => {
       message: 'Would you like to enter another project?',
       default: false
     }
-    // what is projectData?
+    // return answers as projectData and push to portfolioData
   ]).then(projectData => {
     portfolioData.projects.push(projectData);
     if (projectData.confirmAddProject) {
