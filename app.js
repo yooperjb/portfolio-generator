@@ -1,16 +1,8 @@
 // // import modules
 const inquirer = require("inquirer");
-const fs = require("fs");
+const {writeFile, copyFile} = require('./utils/generate-site.js');
 // assign the anonymous function in page-template.js
 const generatePage = require("./src/page-template");
-
-// const pageHTML = generatePage(name,github);
-
-// fs.writeFile('index.html', pageHTML, err => {
-//   if (err) throw err;
-
-//   console.log("Portfolio complete! Check out index.html to see the output!");
-// });
 
 
 const promptUser = () => {
@@ -150,16 +142,26 @@ const promptProject = portfolioData => {
 promptUser()
   .then(promptProject)
   .then(portfolioData => {
-    //console.log("Portfolio: ",portfolioData);
-    const pageHTML = generatePage(mockData);
-    
-    fs.writeFile('index.html', pageHTML, err => {
-      if (err) throw err;
+    // this needs to be changed to return portfolioData
+    return generatePage(mockData);
+  })
+  // function imported from generate-site.js
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  // function imported from generate-site.js
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
 
-      console.log("Portfolio complete! Check out index.html to see the output!");
-    });
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+
+  .catch(err => {
+    console.log(err);
   });
-
 
 
 const mockData = {
